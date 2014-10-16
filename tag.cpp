@@ -11,27 +11,32 @@ public:
 private:
 	string name;
 	attr_map attributes;
-	vector<Tag*> children;
+	vector<Tag> children;
 public:
 	Tag(const string & n = "", 
 		const attr_map & att = attr_map(),
-		const vector<Tag*> & subtags = vector<Tag*>()) : name(n){
+		const vector<Tag> & subtags = vector<Tag>()) : name(n),
+													   attributes(att),
+													   children(subtags) {
+		// Initialize anything here.
 	}
 
 	string Serialize() {
 		string output = "<" + name + ">\n";
-		for(auto & tptr : children) {
-			output += tptr->Serialize() + "\n";
+		for(auto & tag : children) {
+			output += tag.Serialize() + "\n";
 		}
 		output += "</" + name + ">";
 		return output;
 	}
+	// TODO: AddTag
+	// TODO: AddAttributes
+	// TODO: PrettyPrint
 
 };
 
 int main() {
-	Tag html("html");
-
+	Tag html("html", Tag::attr_map(), vector<Tag>({Tag("body")}));
 	cout << html.Serialize() << endl;
 	return 0;
 }
