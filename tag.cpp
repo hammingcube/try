@@ -34,7 +34,7 @@ public:
 		}
 		if (name == "")
 			return output;
-		return beg + "\n" + output + end + "\n";
+		return beg + "\n" + output + end;
 
 
 		return output;
