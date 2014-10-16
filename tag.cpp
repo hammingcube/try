@@ -12,6 +12,9 @@ private:
 	string name;
 	attr_map attributes;
 	vector<Tag> children;
+
+	string beg, end;
+
 public:
 	Tag(const string & n = "", 
 		const attr_map & att = attr_map(),
@@ -19,14 +22,21 @@ public:
 													   attributes(att),
 													   children(subtags) {
 		// Initialize anything here.
+		beg = "<" + name + ">";
+		end = "</" + name + ">";
 	}
 
 	string Serialize() {
-		string output = "<" + name + ">\n";
+
+		string output = "";
 		for(auto & tag : children) {
 			output += tag.Serialize() + "\n";
 		}
-		output += "</" + name + ">";
+		if (name == "")
+			return output;
+		return beg + "\n" + output + end + "\n";
+
+
 		return output;
 	}
 	// TODO: AddTag
@@ -35,8 +45,18 @@ public:
 
 };
 
-int main() {
+void testEmptyTag() {
+	cout << Tag().Serialize() << endl;
+}
+
+void testNested() {
 	Tag html("html", Tag::attr_map(), vector<Tag>({Tag("body")}));
 	cout << html.Serialize() << endl;
+}
+
+int main() {
+	//testEmptyTag();
+	testNested();
+	
 	return 0;
 }
